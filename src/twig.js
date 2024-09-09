@@ -3,6 +3,7 @@ export class Twig {
     #dueTime;
     #priority;
     #topic;
+    #status = "due"
     constructor(name, dueTime, priority, topic) {
         this.#name = name
         this.#dueTime = dueTime
@@ -20,5 +21,11 @@ export class Twig {
     }
     get topic() {
         return this.#topic
+    }
+    get status() {
+        return this.#status
+    }
+    toggleStatus() {
+        this.#status = (this.#status == "due") ? "burnt": "due"
     }
 }

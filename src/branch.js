@@ -16,7 +16,8 @@ export class Branch {
     }
     allTwigs() {
         for (let i = 1; i <= this.#storage.getAmountStored(); i++) {
-            console.log(`${i}: ${this.#storage.getStoredItem(i).name}`)
+            const item = this.#storage.getStoredItem(i)
+            console.log(`${i}: ${item.name} [${item.status}]`)
         }
     }
 }
