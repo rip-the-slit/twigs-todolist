@@ -23,4 +23,7 @@ export class Branch {
             console.log(`${i}: ${twig.name} [${twig.status}]`)
         }
     }
+    addTwig(item) {
+        this.#storage.store(item)
+    }
 }
