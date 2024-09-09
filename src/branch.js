@@ -6,7 +6,10 @@ export class Branch {
             return storage[itemNumber -1]
         }
         const getAmountStored = () => {return storage.length}
-        return {store, getStoredItem, getAmountStored}
+        const deleteItem = (itemNumber) => {
+            storage.splice(itemNumber -1, 1)
+        }
+        return {store, getStoredItem, getAmountStored, deleteItem}
     })();
     constructor() {
         const args = Array.from(arguments)
@@ -25,5 +28,8 @@ export class Branch {
     }
     addTwig(item) {
         this.#storage.store(item)
+    }
+    removeTwig(itemNumber) {
+        this.#storage.deleteItem(itemNumber)
     }
 }

@@ -11,7 +11,7 @@ const defaultBranch = new Branch(new Twig("Do yoga",
                                         "work"))
 
 defaultBranch.allTwigs()
-defaultBranch.selectTwig(1).toggleStatus()    
+defaultBranch.removeTwig(1)    
 defaultBranch.allTwigs()
 defaultBranch.addTwig(new Twig("Study",
                                 "every evening",
