@@ -10,4 +10,6 @@ const defaultBranch = new Branch(new Twig("Do yoga",
                                         "medium",
                                         "work"))
 
-defaultBranch.allTwigs()                                        
+defaultBranch.allTwigs()
+defaultBranch.selectTwig(1).toggleStatus()    
+defaultBranch.allTwigs()                                    

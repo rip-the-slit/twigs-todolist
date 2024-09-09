@@ -14,10 +14,13 @@ export class Branch {
             this.#storage.store(arg)
         }
     }
+    selectTwig(itemNumber) {
+        return this.#storage.getStoredItem(itemNumber)
+    }
     allTwigs() {
         for (let i = 1; i <= this.#storage.getAmountStored(); i++) {
-            const item = this.#storage.getStoredItem(i)
-            console.log(`${i}: ${item.name} [${item.status}]`)
+            const twig = this.selectTwig(i)
+            console.log(`${i}: ${twig.name} [${twig.status}]`)
         }
     }
 }
