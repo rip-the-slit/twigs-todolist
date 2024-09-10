@@ -9,7 +9,11 @@ export class Branch {
         const deleteItem = (itemNumber) => {
             storage.splice(itemNumber -1, 1)
         }
-        return {store, getStoredItem, getAmountStored, deleteItem}
+        const filterItems = (prop, value) => {
+            return storage.filter((item) => {
+                return item[prop] == value})
+        }
+        return {store, getStoredItem, getAmountStored, deleteItem, filterItems}
     })();
     constructor() {
         const args = Array.from(arguments)
@@ -20,11 +24,11 @@ export class Branch {
     selectTwig(itemNumber) {
         return this.#storage.getStoredItem(itemNumber)
     }
-    allTwigs() {
-        for (let i = 1; i <= this.#storage.getAmountStored(); i++) {
-            const twig = this.selectTwig(i)
-            console.log(`${i}: ${twig.name} [${twig.status}]`)
-        }
+    allTwigs(prop="", value=undefined) {
+        this.#storage.filterItems(prop, value)
+                     .forEach((item, index) => {
+                        console.log(`${index +1}: ${item.name} [${item.status}]`)
+                     })
     }
     addTwig(item) {
         this.#storage.store(item)

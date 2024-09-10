@@ -9,12 +9,10 @@ const defaultBranch = new Branch(new Twig("Do yoga",
                                         "every morning",
                                         "medium",
                                         "work"))
-
-defaultBranch.allTwigs()
-defaultBranch.removeTwig(1)    
-defaultBranch.allTwigs()
+   
 defaultBranch.addTwig(new Twig("Study",
                                 "every evening",
                                 "high",
                                 "school"))
-defaultBranch.allTwigs()
+defaultBranch.selectTwig(2).toggleStatus()
+defaultBranch.dueTwigs()
