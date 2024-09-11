@@ -1,5 +1,6 @@
 import { Twig } from "./twig"
 import { Branch } from "./branch"
+import { fixedDate } from "./date"
 
 const defaultBranch = new Branch(new Twig("Do yoga",
                                         "every day",
@@ -11,8 +12,8 @@ const defaultBranch = new Branch(new Twig("Do yoga",
                                         "work"))
    
 defaultBranch.addTwig(new Twig("Study",
-                                "every evening",
+                                new fixedDate(16, 9),
                                 "high",
                                 "school"))
-defaultBranch.selectTwig(2).toggleStatus()
-defaultBranch.dueTwigs()
+console.log(defaultBranch.selectTwig(3).dueTime.isPast)
+defaultBranch.allTwigs("status", "burnt")
