@@ -12,7 +12,10 @@ class fixedDate {
     get distance() {
         return formatDistance(this.#date, this.#now)
     }
-    get isPast() {
+    get hasPassed() {
         return isPast(this.#date)
     }
+}
+
+class periodicDate {
 }

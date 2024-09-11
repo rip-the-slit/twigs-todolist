@@ -28,4 +28,7 @@ export class Twig {
     toggleStatus() {
         this.#status = (this.#status == "due") ? "burnt": "due"
     }
+    isOverdue() {
+        return this.dueTime.hasPassed
+    }
 }
