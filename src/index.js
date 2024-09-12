@@ -16,7 +16,7 @@ defaultBranch.addTwig(new Twig("Study",
                                 "high",
                                 "school"))
 defaultBranch.allTwigs()
-defaultBranch.selectTwig(3).dueTime = new periodicDate({ frequency: "daily" })
+defaultBranch.selectTwig(3).dueTime = new periodicDate()
 defaultBranch.allTwigs()
 defaultBranch.selectTwig(3).dueTime = new fixedDate(16, 8)
 defaultBranch.allTwigs()
