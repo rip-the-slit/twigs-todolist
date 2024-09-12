@@ -1,5 +1,5 @@
 import { formatDistance, isPast } from "date-fns";
-export { fixedDate }
+export { fixedDate, periodicDate }
 
 class fixedDate {
     #date;
@@ -20,4 +20,22 @@ class fixedDate {
 }
 
 class periodicDate {
+    #options;
+    #frequency = (function() {
+        const weekly = function() {
+            console.log("lol")
+        }
+        const daily = function() {
+            console.log(this)
+        }
+
+        return { weekly, daily }
+    })()
+    constructor(options={
+        frequency: "weekly",
+        days: ["mon", "fri"]
+    }) {
+        this.#options = options
+        this.#frequency[options.frequency]()
+    }
 }

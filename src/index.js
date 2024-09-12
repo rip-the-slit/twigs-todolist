@@ -1,6 +1,6 @@
 import { Twig } from "./twig"
 import { Branch } from "./branch"
-import { fixedDate } from "./date"
+import { fixedDate, periodicDate } from "./date"
 
 const defaultBranch = new Branch(new Twig("Do yoga",
                                         "every day",
@@ -16,7 +16,7 @@ defaultBranch.addTwig(new Twig("Study",
                                 "high",
                                 "school"))
 defaultBranch.allTwigs()
-defaultBranch.selectTwig(3).dueTime = new fixedDate(16, 9)
+defaultBranch.selectTwig(3).dueTime = new periodicDate({ frequency: "daily" })
 defaultBranch.allTwigs()
 defaultBranch.selectTwig(3).dueTime = new fixedDate(16, 8)
 defaultBranch.allTwigs()
