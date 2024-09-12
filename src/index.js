@@ -12,8 +12,11 @@ const defaultBranch = new Branch(new Twig("Do yoga",
                                         "work"))
    
 defaultBranch.addTwig(new Twig("Study",
-                                new fixedDate(16, 9),
+                                new fixedDate(16, 7),
                                 "high",
                                 "school"))
-console.log(defaultBranch.selectTwig(3).dueTime.isPast)
-defaultBranch.allTwigs("status", "burnt")
+defaultBranch.allTwigs()
+defaultBranch.selectTwig(3).dueTime = new fixedDate(16, 9)
+defaultBranch.allTwigs()
+defaultBranch.selectTwig(3).dueTime = new fixedDate(16, 8)
+defaultBranch.allTwigs()

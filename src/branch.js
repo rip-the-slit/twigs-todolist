@@ -27,7 +27,7 @@ export class Branch {
     allTwigs(prop="", value=undefined) {
         this.#storage.filterItems(prop, value)
                      .forEach((item, index) => {
-                        console.log(`${index +1}: ${item.name} [${item.status}]`)
+                        console.log(`${index +1}: ${item.name} [${item.status}: ${item.dueTime.distance}]`)
                      })
     }
     addTwig(item) {

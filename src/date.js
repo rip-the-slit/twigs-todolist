@@ -10,7 +10,9 @@ class fixedDate {
         this.#date = new Date(year, month -1, day)
     }
     get distance() {
-        return formatDistance(this.#date, this.#now)
+        return formatDistance(this.#date, this.#now, {
+            addSuffix: true
+        })
     }
     get hasPassed() {
         return isPast(this.#date)
