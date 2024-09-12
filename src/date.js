@@ -1,4 +1,4 @@
-import { formatDistance, isPast, nextDay, compareAsc } from "date-fns";
+import { formatDistance, isPast, nextDay, compareAsc, isSameDay, getDay, endOfDay } from "date-fns";
 export { fixedDate, periodicDate }
 
 class fixedDate {
@@ -25,22 +25,28 @@ class periodicDate {
     #frequency = (function() {
         const weekly = function(days) {
             const dateArray = []
+            const currentDay = getDay(new Date())
             for (const day in days) {
-                dateArray.push(nextDay(new Date(), days[day]))
+                if (days[day] == currentDay) {
+                    dateArray.push(endOfDay(new Date()))
+                } else {
+                    dateArray.push(nextDay(new Date(), days[day]))
+                }
             }
             dateArray.sort(compareAsc)
-            console.log(dateArray)
             return dateArray
         }
         const daily = function() {
-            console.log(this)
+            const dateArray = []
+            dateArray.push(endOfDay(new Date()))
+            return dateArray
         }
 
         return { weekly, daily }
     })()
     constructor(options={
         frequency: "weekly",
-        days: ["thu", "sat"]
+        days: ["mon", "sat"]
     }) {
         this.#options = options
         this.#date = this.#callFrequency()
@@ -69,13 +75,17 @@ class periodicDate {
                               (this.#daysOfTheWeekToObject(this.#options.days))
     }
     get distance() {
-        return formatDistance(this.#date[0], new Date(), {
-            addSuffix: true
-        })
+        if (this.hasPassed) {
+            return "recurring " + formatDistance(this.#date[0], new Date(), {
+                addSuffix: true
+            })
+        } else {
+            return "today"
+        }
     }
     get hasPassed() {
-        const passed = isPast(this.#date[0])
-        if (passed) {this.#shiftDate()}
-        return passed
+        const nearestDate = this.#date[0]
+        if (isPast(nearestDate)) {this.#shiftDate()}
+        return !(isSameDay(new Date(), nearestDate))
     }
 }
