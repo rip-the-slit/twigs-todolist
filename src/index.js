@@ -1,6 +1,7 @@
 import { Twig } from "./twig"
 import { Branch } from "./branch"
 import { fixedDate, periodicDate } from "./date"
+import { clear } from "./dom-manipulation"
 import "./base-style.css"
 import "./sidebar-style.css"
 import "./content-style.css"
@@ -24,3 +25,5 @@ defaultBranch.selectTwig(3).toggleStatus()
 defaultBranch.allTwigs()
 defaultBranch.selectTwig(3).dueTime = new fixedDate(16, 8)
 defaultBranch.allTwigs()
+
+clear.branchList()
