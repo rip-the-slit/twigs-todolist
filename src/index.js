@@ -1,6 +1,9 @@
 import { Twig } from "./twig"
 import { Branch } from "./branch"
 import { fixedDate, periodicDate } from "./date"
+import "./base-style.css"
+import "./sidebar-style.css"
+import "./content-style.css"
 
 const defaultBranch = new Branch(new Twig("Do yoga",
                                         "every day",
