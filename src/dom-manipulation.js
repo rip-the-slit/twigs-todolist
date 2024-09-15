@@ -9,6 +9,7 @@ const createElement = (element) => {
 
 const clear = (function() {
     const branchListNode = getNode("#branch-list")
+    const contentNode = getNode(".content")
     const clear = (item) => {
         while(item.lastChild) {
             item.lastChild.remove()
@@ -17,7 +18,10 @@ const clear = (function() {
     const branchList = () => {
         clear(branchListNode)
     }
-    return { branchList }
+    const content = () => {
+        clear(contentNode)
+    }
+    return { branchList, content }
 })()
 
 const build = (function() {

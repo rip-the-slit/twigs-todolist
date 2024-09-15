@@ -30,3 +30,4 @@ defaultBranch.allTwigs()
 
 clear.branchList()
 build.branchListItem(defaultBranch)
+clear.content()
