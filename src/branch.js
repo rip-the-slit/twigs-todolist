@@ -15,20 +15,23 @@ export class Branch {
         }
         return {store, getStoredItem, getAmountStored, deleteItem, filterItems}
     })();
-    constructor() {
-        const args = Array.from(arguments)
-        for (const arg of args) {
+    #name;
+    #description;
+    constructor(name, description, ...args) {
+        this.#name = name
+        this.#description = description
+        const restOfArgs = Array.from(args)
+        for (const arg of restOfArgs) {
             this.#storage.store(arg)
         }
     }
+    get name() {return this.#name}
+    get description() {return this.#description}
     selectTwig(itemNumber) {
         return this.#storage.getStoredItem(itemNumber)
     }
     allTwigs(prop="", value=undefined) {
-        this.#storage.filterItems(prop, value)
-                     .forEach((item, index) => {
-                        console.log(`${index +1}: ${item.name} [${item.status}: ${item.dueTime.distance}]`)
-                     })
+         return this.#storage.filterItems(prop, value)
     }
     addTwig(item) {
         this.#storage.store(item)

@@ -1,12 +1,14 @@
 import { Twig } from "./twig"
 import { Branch } from "./branch"
 import { fixedDate, periodicDate } from "./date"
-import { clear } from "./dom-manipulation"
+import { clear, build } from "./dom-manipulation"
 import "./base-style.css"
 import "./sidebar-style.css"
 import "./content-style.css"
 
-const defaultBranch = new Branch(new Twig("Do yoga",
+const defaultBranch = new Branch("Welcome", 
+                                "Things you should do to get started",
+                                new Twig("Do yoga",
                                         "every day",
                                         "low",
                                         "health"),
@@ -27,3 +29,4 @@ defaultBranch.selectTwig(3).dueTime = new fixedDate(16, 8)
 defaultBranch.allTwigs()
 
 clear.branchList()
+build.branchListItem(defaultBranch)

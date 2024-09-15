@@ -1,4 +1,4 @@
-export { clear }
+export { clear, build}
 
 const clear = (function() {
     const getNode = (tag) => {
@@ -14,4 +14,11 @@ const clear = (function() {
         clear(branchListNode)
     }
     return { branchList }
+})()
+
+const build = (function() {
+    const branchListItem = (obj) => {
+        const subItems = obj.allTwigs()
+    }
+    return { branchListItem }
 })()
