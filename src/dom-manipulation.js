@@ -29,6 +29,10 @@ const build = (function() {
         const branch = createElement("div")
         const h3 = createElement("h3")
         const ul = createElement("ul")
+        const options = createElement("div")
+        const optionsMenu = createElement("div")
+        const deleteOption = createElement("div")
+        const editOption = createElement("div")
 
         for (const item of subItems) {
             const li = createElement("li")
@@ -38,9 +42,9 @@ const build = (function() {
             const span = createElement("span")
 
             checkbox.classList.add("checkbox")
-            if (itemStatus == "due") {checkbox.toggleAttribute("checked", true)}
+            if (itemStatus == "due") {checkbox.classList.toggle("checked")}
             li.addEventListener("click", (e) => {
-                checkbox.toggleAttribute("checked")
+                checkbox.classList.toggle("checked")
                 item.toggleStatus()
             })
 
@@ -53,11 +57,30 @@ const build = (function() {
         }
 
         branch.classList.add("branch")
+        options.classList.add("options")
+        optionsMenu.classList.add("menu")
+
+        document.addEventListener("click", (e) => {
+            if (e.target === options) {
+                optionsMenu.classList.toggle("open")
+            } else if (e.target === deleteOption) {
+                branch.remove()
+            } else {
+                optionsMenu.classList.remove("open")
+            }
+        })
 
         h3.textContent = itemName
+        options.textContent = "..."
+        deleteOption.textContent = "Delete"
+        editOption.textContent = "Edit"
 
         branch.appendChild(h3)
         branch.appendChild(ul)
+        branch.appendChild(options)
+        optionsMenu.appendChild(deleteOption)
+        optionsMenu.appendChild(editOption)
+        branch.appendChild(optionsMenu)
         branchListNode.appendChild(branch)
     }
     return { branchListItem }

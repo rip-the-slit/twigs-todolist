@@ -20,6 +20,7 @@ nav {
     font-family: "Darumadrop One", sans-serif;
     color: #f4f4f5;
     justify-self: center;
+    user-select: none;
 }
 
 .branch {
@@ -28,6 +29,7 @@ nav {
     background: #27272a;
     border-radius: 10px;
     margin-bottom: 6px;
+    position: relative;
 }
 .branch ul,
 .branch li {
@@ -46,6 +48,7 @@ nav {
     grid-template-columns: subgrid;
     gap: 5px;
     align-items: center;
+    user-select: none;
 }
 
 .checkbox {
@@ -54,9 +57,46 @@ nav {
     border: 1px solid #71717a;
     border-radius: 3px;
     overflow: hidden;
+    cursor: pointer;
 }
 
-.checkbox[checked=""] > div {
+.checkbox.checked > div {
     height: 100%;
     background: #f4f4f5;
+}
+
+.options {
+    position: absolute;
+    right: 15px;
+    top: 1px;
+    user-select: none;
+    cursor: pointer;
+}
+
+.options + .menu {
+    user-select: none;
+    cursor: pointer;
+    background: #d4d4d8e3;
+    color:#09090b;
+    border-radius: 5px;
+    overflow: hidden;
+    position: absolute;
+    right: -50px;
+    top: 0;
+    display: none;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.089);
+}
+
+.options + .menu > div {
+    background: white;
+    padding: 5px;
+}
+
+.options + .menu > div:hover {
+    filter: brightness(.95);
+}
+
+.options + .menu.open {
+    display: grid;
+    gap: 1px; 
 }
