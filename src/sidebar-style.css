@@ -5,6 +5,7 @@ nav {
     display: grid;
     grid-template-rows: repeat(2, max-content) 1fr max-content;
     background: #09090b;
+    height: 100vh;
 }
 
 #create-branch-button {

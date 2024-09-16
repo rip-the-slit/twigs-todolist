@@ -3,7 +3,10 @@
     color: #09090b;
     display: grid;
     grid-template-columns: 1fr max-content 1fr;
-}
+    grid-template-rows: max-content;
+    height: 100vh;
+    overflow: auto;
+  }
 
 .branch-content {
     background: linear-gradient(135deg, #f4f4f5 70%, #a855f7 100%);
@@ -98,6 +101,7 @@
 .twigs-container {
   display: grid;
   grid-template-rows: 100px;
+  gap: 15px;
 }
 
 .twig {
@@ -149,6 +153,7 @@
 .twig-tags {
   display: flex;
   justify-content: space-between;
+  gap: 3px;
   align-items: end;
   height: 100%;
 }
