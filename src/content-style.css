@@ -162,6 +162,29 @@
   width: 30px;
   height: 30px;
   border-radius: 5px;
+  display: grid;
+  place-items: center;
+}
+
+.checkbox-container .checkbox.checked::before {
+  content: "";
+  display: block;
+  width: 80%;
+  height: 90%;
+  background: linear-gradient(to bottom, #ea580c, #f97316 50%, #fb923c 60%, #fbbf24 80%, #fef08a);
+  background-size: 100% 200%;
+  animation: burning 4s cubic-bezier(.17,.67,.83,.67) infinite;
+  clip-path: url("#flame-clip");
+}
+
+@keyframes burning {
+  0%,100% {
+    background-position: 0 0;
+  }
+
+  50% {
+    background-position: 0 100%;
+  }
 }
 
 .twig h3 {
