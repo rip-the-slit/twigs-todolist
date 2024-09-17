@@ -144,6 +144,19 @@ const build = (function() {
             const filters = () => {
                 clear.clear(branchFilter)
 
+                const displayFilterBeingSelected = (selected) => {
+                    for (const filter of Array.from(ul.childNodes)) {
+                        if (filter === selected) {
+                            selected.classList.add("selected")
+                        } else {filter.classList.remove("selected")}
+                    }
+                }
+                const updateCounters = () => {
+                    allCount.textContent = allTwigs().length
+                    dueCount.textContent = dueTwigs().length
+                    burntCount.textContent = burntTwigs().length      
+                }
+
                 const ul = createElement("ul")
                 const allFilter = createElement("li")
                 const allCount = createElement("div")
@@ -160,15 +173,19 @@ const build = (function() {
 
                 allFilter.addEventListener("click", (e) => {
                     iterateTwigs(allTwigs())
+                    displayFilterBeingSelected(allFilter)
                 })
                 dueFilter.addEventListener("click", (e) => {
                     iterateTwigs(dueTwigs())
+                    displayFilterBeingSelected(dueFilter)
                 })
                 burntFilter.addEventListener("click", (e) => {
                     iterateTwigs(burntTwigs())
+                    displayFilterBeingSelected(burntFilter)
                 })
                 priorityFilter.addEventListener("click", (e) => {
                     iterateTwigs(obj.allTwigs("priority", select.value))
+                    displayFilterBeingSelected(priorityFilter)
                 })
 
                 allFilter.classList.add("all")
@@ -177,7 +194,6 @@ const build = (function() {
                 allCount.classList.add("item-count")
                 dueCount.classList.add("item-count")
                 burntCount.classList.add("item-count")
-                burntFilter.classList.add("priorityFilter")
 
                 select.id = "priority"
 
@@ -189,15 +205,14 @@ const build = (function() {
                 select.setAttribute("name", "priority")
 
                 allFilter.textContent = "All"
-                allCount.textContent = allTwigs().length
                 dueFilter.textContent = "Due"
-                dueCount.textContent = dueTwigs().length
                 burntFilter.textContent = "Burnt"
-                burntCount.textContent = burntTwigs().length
                 label.textContent = "Priority"
                 lowPriority.textContent = "Low"
                 mediumPriority.textContent = "Medium"
                 highPriority.textContent = "High"
+                
+                updateCounters()
 
                 allFilter.appendChild(allCount)
                 ul.appendChild(allFilter)
@@ -212,6 +227,8 @@ const build = (function() {
                 priorityFilter.appendChild(select)
                 ul.appendChild(priorityFilter)
                 branchFilter.appendChild(ul)
+
+                displayFilterBeingSelected(allFilter)
             }
 
             const branchContent = createElement("div")

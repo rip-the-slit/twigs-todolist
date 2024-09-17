@@ -27,6 +27,7 @@
     display: grid;
     grid-auto-flow: column;
     grid-template-columns: 2fr 1fr 100px;
+    gap: 10px;
 }
 
 .branch-heading h2 {
@@ -75,6 +76,26 @@
     display: grid;
     grid-auto-flow: column;
     align-items: center;
+    gap: 5px;
+    user-select: none;
+    cursor: pointer;
+}
+
+.branch-filters label {
+  user-select: none;
+  cursor: pointer;
+}
+
+.branch-filters li.selected,
+.branch-filters li.selected > label {
+  color: #a855f7;
+}
+
+.branch-filters li.selected > .item-count,
+.branch-filters li.selected > select {
+  background: #a855f7;
+  color:white;
+  border-radius: 3px;
 }
 
 .branch-content ul :nth-child(1) {
