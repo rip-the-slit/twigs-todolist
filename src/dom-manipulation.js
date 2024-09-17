@@ -45,7 +45,7 @@ const build = (function() {
             const span = createElement("span")
 
             checkbox.classList.add("checkbox")
-            if (itemStatus == "due") {checkbox.classList.toggle("checked")}
+            if (itemStatus == "burnt") {checkbox.classList.toggle("checked")}
             li.addEventListener("click", (e) => {
                 checkbox.classList.toggle("checked")
                 item.toggleStatus()
@@ -93,6 +93,7 @@ const build = (function() {
             const allTwigs = () => {return obj.allTwigs()}
             const dueTwigs = () => {return obj.allTwigs("status", "due")}
             const burntTwigs = () => {return obj.allTwigs("status", "burnt")}
+            let currentlyDisplayedTwigs;
 
             const twig = (twig) => {
                 const twigName = twig.name
@@ -110,6 +111,14 @@ const build = (function() {
                 const priorityTag = createElement("span")
                 const topicTag = createElement("span")
                 const editButton = createElement("button")
+
+                if (twigStatus == "burnt") {checkbox.classList.toggle("checked")}
+                checkbox.addEventListener("click", (e) => {
+                    checkbox.classList.toggle("checked")
+                    twig.toggleStatus()
+                    filtersInstance.updateCounters()
+                    iterateTwigs(currentlyDisplayedTwigs)
+                })
 
                 twigDiv.classList.add("twig")
                 checkboxContainer.classList.add("checkbox-container")
@@ -136,7 +145,9 @@ const build = (function() {
                 twigDiv.appendChild(twigTags)
                 twigsContainer.appendChild(twigDiv)
             }
-            const iterateTwigs = (array) => {
+            const iterateTwigs = (getArray) => {
+                const array = getArray()
+                currentlyDisplayedTwigs = getArray
                 clear.clear(twigsContainer)
                 
                 array.forEach(twig)
@@ -172,19 +183,19 @@ const build = (function() {
                 const highPriority = createElement("option")
 
                 allFilter.addEventListener("click", (e) => {
-                    iterateTwigs(allTwigs())
+                    iterateTwigs(allTwigs)
                     displayFilterBeingSelected(allFilter)
-                })
+                                    })
                 dueFilter.addEventListener("click", (e) => {
-                    iterateTwigs(dueTwigs())
+                    iterateTwigs(dueTwigs)
                     displayFilterBeingSelected(dueFilter)
                 })
                 burntFilter.addEventListener("click", (e) => {
-                    iterateTwigs(burntTwigs())
+                    iterateTwigs(burntTwigs)
                     displayFilterBeingSelected(burntFilter)
                 })
                 priorityFilter.addEventListener("click", (e) => {
-                    iterateTwigs(obj.allTwigs("priority", select.value))
+                    iterateTwigs(function() {return obj.allTwigs("priority", select.value)})
                     displayFilterBeingSelected(priorityFilter)
                 })
 
@@ -229,6 +240,8 @@ const build = (function() {
                 branchFilter.appendChild(ul)
 
                 displayFilterBeingSelected(allFilter)
+
+                return { updateCounters }
             }
 
             const branchContent = createElement("div")
@@ -251,8 +264,8 @@ const build = (function() {
             p.textContent = branchDescription
             createTwigButton.textContent = "Create Twig"
 
-            filters()
-            iterateTwigs(allTwigs())
+            const filtersInstance = filters()
+            iterateTwigs(allTwigs)
 
             branchInfoDiv.appendChild(h2)
             branchInfoDiv.appendChild(p)
