@@ -32,6 +32,11 @@ nav {
     margin-bottom: 6px;
     position: relative;
 }
+
+.branch h3 {
+    user-select: none;
+    cursor: pointer;
+}
 .branch ul,
 .branch li {
     list-style: none;

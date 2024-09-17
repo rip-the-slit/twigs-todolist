@@ -68,6 +68,9 @@ const build = (function() {
                 optionsMenu.classList.toggle("open")
             } else if (e.target === deleteOption) {
                 branch.remove()
+            } else if (e.target ===h3) {
+                clear.content()
+                content.branch(obj)
             } else {
                 optionsMenu.classList.remove("open")
             }
