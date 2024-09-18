@@ -1,5 +1,6 @@
 import { Twig } from "./twig"
 import { Branch } from "./branch"
+import { branches } from "./branches"
 import { fixedDate, periodicDate } from "./date"
 import { clear, build } from "./dom-manipulation"
 import "./base-style.css"
@@ -8,27 +9,22 @@ import "./content-style.css"
 
 const defaultBranch = new Branch("Welcome", 
                                 "Things you should do to get started",
-                                new Twig("Do yoga",
+                                new Twig("Create a twig",
                                         "every day",
-                                        "low",
-                                        "health"),
-                                new Twig("Check email",
+                                        "high",
+                                        "start"
+                                ),
+                                new Twig("Burn a twig",
+                                        "ee",
+                                        "high",
+                                        "start"
+                                ),
+                                new Twig("Create a branch",
                                         "every morning",
-                                        "medium",
-                                        "work"))
-   
-defaultBranch.addTwig(new Twig("Study",
-                                new fixedDate(16, 7),
-                                "high",
-                                "school"))
-defaultBranch.allTwigs()
-defaultBranch.selectTwig(3).dueTime = new periodicDate()
-defaultBranch.selectTwig(3).toggleStatus()
-defaultBranch.allTwigs()
-defaultBranch.selectTwig(3).dueTime = new fixedDate(16, 8)
-defaultBranch.allTwigs()
+                                        "high",
+                                        "start"
+                                ))
+branches.add(defaultBranch)
 
 clear.branchList()
-build.branchListItem(defaultBranch)
-clear.content()
-build.content.branch(defaultBranch)
+branches.iterate(build.branchListItem)
