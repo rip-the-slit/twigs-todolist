@@ -1,4 +1,5 @@
 export { clear, build}
+import { branches } from "./branches"
 
 const getNode = (tag) => {
     return document.querySelector(tag)
@@ -28,6 +29,7 @@ const build = (function() {
     const branchListItem = (obj) => {
         const itemName = obj.name
         const subItems = obj.allTwigs()
+        let contentInstance;
 
         const branch = createElement("div")
         const h3 = createElement("h3")
@@ -49,6 +51,7 @@ const build = (function() {
             li.addEventListener("click", (e) => {
                 checkbox.classList.toggle("checked")
                 item.toggleStatus()
+                if (contentInstance) {contentInstance.update()}
             })
 
             span.textContent = item.name
@@ -70,7 +73,7 @@ const build = (function() {
                 branch.remove()
             } else if (e.target ===h3) {
                 clear.content()
-                content.branch(obj)
+                contentInstance = content.branch(obj)
             } else {
                 optionsMenu.classList.remove("open")
             }
@@ -97,6 +100,10 @@ const build = (function() {
             const dueTwigs = () => {return obj.allTwigs("status", "due")}
             const burntTwigs = () => {return obj.allTwigs("status", "burnt")}
             let currentlyDisplayedTwigs;
+            const update = () => {
+                filtersInstance.updateCounters()
+                iterateTwigs(currentlyDisplayedTwigs)
+            }
 
             const twig = (twig) => {
                 const twigName = twig.name
@@ -119,8 +126,9 @@ const build = (function() {
                 checkbox.addEventListener("click", (e) => {
                     checkbox.classList.toggle("checked")
                     twig.toggleStatus()
-                    filtersInstance.updateCounters()
-                    iterateTwigs(currentlyDisplayedTwigs)
+                    update()
+                    clear.branchList()
+                    branches.iterate(branchListItem)
                 })
 
                 twigDiv.classList.add("twig")
@@ -278,6 +286,8 @@ const build = (function() {
             branchContent.appendChild(branchFilter)
             branchContent.appendChild(twigsContainer)
             contentNode.appendChild(branchContent)
+
+            return { update }
         }   
         return { branch }
     })()

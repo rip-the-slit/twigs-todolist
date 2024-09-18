@@ -24,7 +24,16 @@ const defaultBranch = new Branch("Welcome",
                                         "high",
                                         "start"
                                 ))
+const otherBranch = new Branch("Other branch",
+                                "It's for testing",
+                                new Twig("something",
+                                        "any",
+                                        "any",
+                                        "any"
+                                )
+)
 branches.add(defaultBranch)
+branches.add(otherBranch)
 
 clear.branchList()
 branches.iterate(build.branchListItem)
