@@ -33,10 +33,10 @@ const build = (function() {
         content.branchEditor()
     })
 
-    const branchListItem = (obj) => {
+    const branchListItem = (obj, displayBranch) => {
         const itemName = obj.name
         const subItems = obj.allTwigs()
-        let contentInstance;
+        let contentInstance = displayBranch
 
         const branch = createElement("div")
         const h3 = createElement("h3")
@@ -103,9 +103,9 @@ const build = (function() {
         branch.appendChild(optionsMenu)
         branchListNode.appendChild(branch)
     }
-    const updateBranchList = () => {
+    const updateBranchList = (displayedBranch) => {
         clear.branchList()
-        branches.iterate(branchListItem)
+        branches.iterate(branchListItem, displayedBranch)
     }
     const content = (function() {
         const branchEditor = (obj) => {
@@ -148,8 +148,7 @@ const build = (function() {
                 e.preventDefault()
                 editBranch()
                 clear.content()
-                branch(obj)
-                updateBranchList()
+                updateBranchList(branch(obj))
             })
             
             branchNameInput.id = "branch-name"
@@ -400,7 +399,7 @@ const build = (function() {
             branchContent.appendChild(twigsContainer)
             contentNode.appendChild(branchContent)
 
-            return { update }
+            return { update, obj }
         }   
         return { branch, branchEditor }
     })()

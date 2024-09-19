@@ -1,8 +1,12 @@
 export const branches = (function() {
     const storage = []
-    const iterate = (callback) => {
+    const iterate = (callback, displayedBranch) => {
         for (const item of storage) {
-            callback(item)
+            if (displayedBranch) {
+                if (item == displayedBranch.obj) {
+                    callback(item, displayedBranch)
+                } else {callback(item)}
+            } else {callback(item)}
         }
     }
     const add = (item) => {
