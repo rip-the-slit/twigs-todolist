@@ -77,7 +77,11 @@ const build = (function() {
             if (e.target === options) {
                 optionsMenu.classList.toggle("open")
             } else if (e.target === deleteOption) {
-                branch.remove()
+                const removedBranchIndex = branches.remove(obj)
+                const lastBranch = branches.select(removedBranchIndex -1)
+                clear.content()
+                if (lastBranch) {updateBranchList(content.branch(lastBranch))}
+                else {updateBranchList()}
             } else if (e.target === editOption) {
                 clear.content()
                 content.branchEditor(obj)

@@ -17,6 +17,10 @@ export const branches = (function() {
         if (index > -1) {
             storage.splice(index, 1)
         }
+        return index
     }
-    return{ iterate, add, remove }
+    const select = (index) => {
+        return storage[index]
+    }
+    return{ iterate, add, remove, select }
 })()
