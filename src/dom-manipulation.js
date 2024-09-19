@@ -1,4 +1,5 @@
 export { clear, build}
+import { Branch } from "./branch"
 import { branches } from "./branches"
 
 const getNode = (tag) => {
@@ -9,6 +10,7 @@ const createElement = (element) => {
 }
 const branchListNode = getNode("#branch-list")
 const contentNode = getNode(".content")
+const createBranchButton = getNode("#create-branch-button")
 
 const clear = (function() {
     const clear = (item) => {
@@ -26,6 +28,11 @@ const clear = (function() {
 })()
 
 const build = (function() {
+    createBranchButton.addEventListener("click", () => {
+        clear.content()
+        content.branchEditor()
+    })
+
     const branchListItem = (obj) => {
         const itemName = obj.name
         const subItems = obj.allTwigs()
@@ -71,6 +78,10 @@ const build = (function() {
                 optionsMenu.classList.toggle("open")
             } else if (e.target === deleteOption) {
                 branch.remove()
+            } else if (e.target === editOption) {
+                clear.content()
+                content.branchEditor(obj)
+                optionsMenu.classList.remove("open")
             } else if (e.target ===h3) {
                 clear.content()
                 contentInstance = content.branch(obj)
@@ -93,6 +104,100 @@ const build = (function() {
         branchListNode.appendChild(branch)
     }
     const content = (function() {
+        const branchEditor = (obj) => {
+            const isBranchNew = !obj
+            if (isBranchNew) {obj = new Branch("", "")}
+
+            const branchEditor = createElement("div")
+            const form = createElement("form")
+            const branchName = createElement("label")
+            const branchNameInput = createElement("input")
+            const branchDescription = createElement("label")
+            const branchDescriptionInput = createElement("textarea")
+            const fieldset = createElement("fieldset")
+            const legend = createElement("legend")
+            const colorThemeDiv = createElement("div")
+            const purpleTheme = createElement("label")
+            const purpleThemeInput = createElement("input")
+            const emeraldTheme = createElement("label")
+            const emeraldThemeInput = createElement("input")
+            const roseTheme = createElement("label")
+            const roseThemeInput = createElement("input")
+            const submitButton = createElement("button")
+            const labelArray = [purpleTheme, emeraldTheme, roseTheme]
+
+            branchEditor.classList.add("branch-editor")
+            purpleTheme.classList.add("checked")
+            colorThemeDiv.addEventListener("change", (e) => {
+                for (const label of labelArray) {
+                    label.classList.remove("checked")
+                }
+                e.target.parentNode.classList.add("checked")
+            })
+            form.addEventListener("submit", (e) => {
+                e.preventDefault()
+                obj.name = branchNameInput.value
+                obj.description = branchDescriptionInput.value
+                if (isBranchNew) {branches.add(obj)}
+                clear.content()
+                branch(obj)
+            })
+            
+            branchNameInput.id = "branch-name"
+            branchDescriptionInput.id = "branch-description"
+            purpleThemeInput.id = "purple"
+            emeraldThemeInput.id = "emerald"
+            roseThemeInput.id = "rose"
+
+
+            branchName.setAttribute("for", "branch-name")
+            branchNameInput.setAttribute("placeholder", "The name of your branch")
+            branchDescription.setAttribute("for", "branch-description")
+            branchDescriptionInput.setAttribute("placeholder", "A short and clear description of the content of your branch...")
+            branchDescriptionInput.setAttribute("rows", "2")
+            purpleTheme.setAttribute("for", "purple")
+            purpleThemeInput.setAttribute("type", "radio")
+            purpleThemeInput.setAttribute("checked", "")
+            purpleThemeInput.setAttribute("name", "color-theme")
+            purpleThemeInput.setAttribute("value", "purple")
+            emeraldTheme.setAttribute("for", "emerald")
+            emeraldThemeInput.setAttribute("type", "radio")
+            emeraldThemeInput.setAttribute("name", "color-theme")
+            emeraldThemeInput.setAttribute("value", "emerald")
+            roseTheme.setAttribute("for", "rose")
+            roseThemeInput.setAttribute("type", "radio")
+            roseThemeInput.setAttribute("name", "color-theme")
+            roseThemeInput.setAttribute("value", "rose")
+            submitButton.setAttribute("type", "submit")
+
+            branchName.textContent = "Name:"
+            branchDescription.textContent = "Description:"
+            legend.textContent = "Select a color theme:"
+            purpleTheme.textContent = "Purple"
+            emeraldTheme.textContent = "Emerald"
+            roseTheme.textContent = "Rose"
+            submitButton.textContent = "Save"
+
+            branchNameInput.value = obj.name
+            branchDescriptionInput.value = obj.description
+        
+            branchName.appendChild(branchNameInput)
+            form.appendChild(branchName)
+            branchDescription.appendChild(branchDescriptionInput)
+            form.appendChild(branchDescription)
+            fieldset.appendChild(legend)
+            purpleTheme.appendChild(purpleThemeInput)
+            colorThemeDiv.appendChild(purpleTheme)
+            emeraldTheme.appendChild(emeraldThemeInput)
+            colorThemeDiv.appendChild(emeraldTheme)
+            roseTheme.appendChild(roseThemeInput)
+            colorThemeDiv.appendChild(roseTheme)
+            fieldset.appendChild(colorThemeDiv)
+            form.appendChild(fieldset)
+            form.appendChild(submitButton)
+            branchEditor.appendChild(form)
+            contentNode.appendChild(branchEditor)
+        }
         const branch = (obj) => {
             const branchName = obj.name
             const branchDescription = obj.description
@@ -289,7 +394,7 @@ const build = (function() {
 
             return { update }
         }   
-        return { branch }
+        return { branch, branchEditor }
     })()
     return { branchListItem, content }
 })()

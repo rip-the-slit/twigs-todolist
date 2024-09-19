@@ -6,6 +6,7 @@ import { clear, build } from "./dom-manipulation"
 import "./base-style.css"
 import "./sidebar-style.css"
 import "./content-style.css"
+import "./branch-editor.css"
 
 const defaultBranch = new Branch("Welcome", 
                                 "Things you should do to get started",
@@ -37,3 +38,5 @@ branches.add(otherBranch)
 
 clear.branchList()
 branches.iterate(build.branchListItem)
+clear.content()
+build.content.branchEditor()
