@@ -103,10 +103,20 @@ const build = (function() {
         branch.appendChild(optionsMenu)
         branchListNode.appendChild(branch)
     }
+    const updateBranchList = () => {
+        clear.branchList()
+        branches.iterate(branchListItem)
+    }
     const content = (function() {
         const branchEditor = (obj) => {
             const isBranchNew = !obj
             if (isBranchNew) {obj = new Branch("", "")}
+
+            const editBranch = () => {
+                obj.name = branchNameInput.value
+                obj.description = branchDescriptionInput.value
+                if (isBranchNew) {branches.add(obj)}
+            }
 
             const branchEditor = createElement("div")
             const form = createElement("form")
@@ -136,11 +146,10 @@ const build = (function() {
             })
             form.addEventListener("submit", (e) => {
                 e.preventDefault()
-                obj.name = branchNameInput.value
-                obj.description = branchDescriptionInput.value
-                if (isBranchNew) {branches.add(obj)}
+                editBranch()
                 clear.content()
                 branch(obj)
+                updateBranchList()
             })
             
             branchNameInput.id = "branch-name"
@@ -232,8 +241,7 @@ const build = (function() {
                     checkbox.classList.toggle("checked")
                     twig.toggleStatus()
                     update()
-                    clear.branchList()
-                    branches.iterate(branchListItem)
+                    updateBranchList()
                 })
 
                 twigDiv.classList.add("twig")

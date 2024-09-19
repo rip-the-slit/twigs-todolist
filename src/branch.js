@@ -26,7 +26,9 @@ export class Branch {
         }
     }
     get name() {return this.#name}
+    set name(newValue) {this.#name = newValue}
     get description() {return this.#description}
+    set description(newValue) {this.#description = newValue}
     selectTwig(itemNumber) {
         return this.#storage.getStoredItem(itemNumber)
     }
