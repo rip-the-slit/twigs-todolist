@@ -110,11 +110,12 @@ const build = (function() {
     const content = (function() {
         const branchEditor = (obj) => {
             const isBranchNew = !obj
-            if (isBranchNew) {obj = new Branch("", "")}
+            if (isBranchNew) {obj = new Branch("", "", "purple")}
 
             const editBranch = () => {
                 obj.name = branchNameInput.value
                 obj.description = branchDescriptionInput.value
+                obj.colorTheme = colorThemeDiv.querySelector(".checked input").value
                 if (isBranchNew) {branches.add(obj)}
             }
 
@@ -137,7 +138,6 @@ const build = (function() {
             const labelArray = [purpleTheme, emeraldTheme, roseTheme]
 
             branchEditor.classList.add("branch-editor")
-            purpleTheme.classList.add("checked")
             colorThemeDiv.addEventListener("change", (e) => {
                 for (const label of labelArray) {
                     label.classList.remove("checked")
@@ -165,7 +165,6 @@ const build = (function() {
             branchDescriptionInput.setAttribute("rows", "2")
             purpleTheme.setAttribute("for", "purple")
             purpleThemeInput.setAttribute("type", "radio")
-            purpleThemeInput.setAttribute("checked", "")
             purpleThemeInput.setAttribute("name", "color-theme")
             purpleThemeInput.setAttribute("value", "purple")
             emeraldTheme.setAttribute("for", "emerald")
@@ -187,8 +186,8 @@ const build = (function() {
             submitButton.textContent = "Save"
 
             branchNameInput.value = obj.name
-            branchDescriptionInput.value = obj.description
-        
+            branchDescriptionInput.value = obj.description 
+
             branchName.appendChild(branchNameInput)
             form.appendChild(branchName)
             branchDescription.appendChild(branchDescriptionInput)
@@ -205,10 +204,19 @@ const build = (function() {
             form.appendChild(submitButton)
             branchEditor.appendChild(form)
             contentNode.appendChild(branchEditor)
+
+            for (const label of [purpleTheme, emeraldTheme, roseTheme]) {
+                const input = label.lastChild
+                if (input.value === obj.colorTheme) {
+                    label.classList.add("checked")
+                    input.setAttribute("checked", "")
+                }
+            }
         }
         const branch = (obj) => {
             const branchName = obj.name
             const branchDescription = obj.description
+            const branchColorTheme = obj.colorTheme
             const allTwigs = () => {return obj.allTwigs()}
             const dueTwigs = () => {return obj.allTwigs("status", "due")}
             const burntTwigs = () => {return obj.allTwigs("status", "burnt")}
@@ -382,6 +390,8 @@ const build = (function() {
             twigsContainer.classList.add("twigs-container")
             
             createTwigButton.id = "create-twig-button"
+
+            branchContent.setAttribute("colorTheme", `${branchColorTheme}`)
 
             h2.textContent = branchName
             p.textContent = branchDescription

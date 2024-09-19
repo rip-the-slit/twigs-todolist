@@ -9,13 +9,24 @@
   }
 
 .branch-content {
-    background: linear-gradient(135deg, #f4f4f5 70%, #a855f7 100%);
     width: min(500px, 50vw);
     border-radius: 10px;
     grid-column: 2;
     padding-block: 50px;
     position: relative;
     overflow: hidden;
+}
+
+.branch-content[colorTheme="purple"] {
+    background: linear-gradient(135deg, #f4f4f5 70%, #a855f7 100%);
+}
+
+.branch-content[colorTheme="emerald"] {
+    background: linear-gradient(135deg, #f4f4f5 70%, #34d399 100%);
+}
+
+.branch-content[colorTheme="rose"] {
+    background: linear-gradient(135deg, #f4f4f5 70%, #f43f5e 100%);
 }
 
 .branch-content > * {
@@ -45,9 +56,22 @@
     height: 50px;
     align-self: center;
     border: 0;
-    background: #e9d5ff;
-    color: #a855f7;
     border-radius: 5px;
+}
+
+.branch-content[colorTheme="purple"] #create-twig-button {
+  background: #e9d5ff;
+  color: #a855f7;
+}
+
+.branch-content[colorTheme="emerald"] #create-twig-button {
+  background: #a7f3d0b7;
+  color: #34d399;
+}
+
+.branch-content[colorTheme="rose"] #create-twig-button {
+  background: #fecdd3;
+  color: #f43f5e;
 }
 
 .branch-filters {
@@ -87,16 +111,40 @@
   cursor: pointer;
 }
 
-.branch-filters li.selected,
-.branch-filters li.selected > label {
+.branch-content[colorTheme="purple"] .branch-filters li.selected,
+.branch-content[colorTheme="purple"] .branch-filters li.selected > label {
   color: #a855f7;
+}
+
+.branch-content[colorTheme="emerald"] .branch-filters li.selected,
+.branch-content[colorTheme="emerald"] .branch-filters li.selected > label {
+  color: #34d399;
+}
+
+.branch-content[colorTheme="rose"] .branch-filters li.selected,
+.branch-content[colorTheme="rose"] .branch-filters li.selected > label {
+  color: #f43f5e;
 }
 
 .branch-filters li.selected > .item-count,
 .branch-filters li.selected > select {
-  background: #a855f7;
   color:white;
   border-radius: 3px;
+}
+
+.branch-content[colorTheme="purple"] .branch-filters li.selected > .item-count,
+.branch-content[colorTheme="purple"] .branch-filters li.selected > select {
+  background: #a855f7;
+}
+
+.branch-content[colorTheme="emerald"] .branch-filters li.selected > .item-count,
+.branch-content[colorTheme="emerald"] .branch-filters li.selected > select {
+  background: #34d399;
+}
+
+.branch-content[colorTheme="rose"] .branch-filters li.selected > .item-count,
+.branch-content[colorTheme="rose"] .branch-filters li.selected > select {
+  background: #f43f5e;
 }
 
 .branch-content ul :nth-child(1) {

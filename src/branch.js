@@ -17,9 +17,11 @@ export class Branch {
     })();
     #name;
     #description;
-    constructor(name, description, ...args) {
+    #colorTheme;
+    constructor(name, description, colorTheme, ...args) {
         this.#name = name
         this.#description = description
+        this.#colorTheme = colorTheme
         const restOfArgs = Array.from(args)
         for (const arg of restOfArgs) {
             this.#storage.store(arg)
@@ -29,6 +31,8 @@ export class Branch {
     set name(newValue) {this.#name = newValue}
     get description() {return this.#description}
     set description(newValue) {this.#description = newValue}
+    get colorTheme() {return this.#colorTheme}
+    set colorTheme(newValue) {this.#colorTheme = newValue}
     selectTwig(itemNumber) {
         return this.#storage.getStoredItem(itemNumber)
     }

@@ -10,6 +10,7 @@ import "./branch-editor.css"
 
 const defaultBranch = new Branch("Welcome", 
                                 "Things you should do to get started",
+                                "rose",
                                 new Twig("Create a twig",
                                         "every day",
                                         "high",
@@ -27,6 +28,7 @@ const defaultBranch = new Branch("Welcome",
                                 ))
 const otherBranch = new Branch("Other branch",
                                 "It's for testing",
+                                "emerald",
                                 new Twig("something",
                                         "any",
                                         "any",
