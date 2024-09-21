@@ -18,16 +18,62 @@
         <button id="create-branch-button">Create Branch</button>
     </nav>
     <div class="content">
-        <div class="branch-editor">
+        <div class="twig-editor">
             <form action="">
-                <label for="branch-name">Name:<input id="branch-name" type="text" placeholder="The name of your branch"></label>
-                <label for="branch-description">Description: <textarea name="" id="branch-description" rows="2" placeholder="A short and clear description of the content of your branch..."></textarea></label>
+                <label for="twig-name">
+                    Name:
+                    <input id="twig-name" type="text" placeholder="The name of your twig">
+                </label>
+                <div>
+                    <label for="twig-topic">
+                        Topic:
+                        <input id="twig-topic" type="text" placeholder="E.g. work">
+                    </label>
+                    <label for="twig-priority">
+                        Priority:
+                        <select name="twig-priority" id="twig-priority">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </label>
+                </div>
                 <fieldset>
-                    <legend>Select a color theme:</legend>
+                    <legend>
+                        Select duetime:
+                    </legend>
                     <div>
-                        <label for="purple" class="checked">Purple<input type="radio" name="color-theme" id="purple" value="purple" checked></label>
-                        <label for="emerald">Emerald<input type="radio" name="color-theme" id="emerald" value="emerald"></label>
-                        <label for="rose">Rose<input type="radio" name="color-theme" id="rose" value="rose"></label>
+                        <div class="duetime-type">
+                            <label for="duetime-type" style="display: none;">Duetime type</label>
+                            <select name="duetime-type" id="duetime-type">
+                                <option value="open-ended">Open-ended</option>
+                                <option value="static">Static</option>
+                                <option value="periodic">Periodic</option>
+                            </select>
+                        </div>
+                        <div class="static-duetime">
+                            <label for="date" style="display: none;">Pick a date</label>
+                            <input type="date" name="date" id="date">
+                        </div>
+                        <div class="periodic-duetime-frequency">
+                            <label for="daily">
+                                Daily
+                                <input type="radio" id="daily" name="periodic-duetime-frequency" value="daily">
+                            </label>
+                            <label for="weekly">
+                                Weekly
+                                <input type="radio" id="weekly" name="periodic-duetime-frequency" value="weekly">
+                            </label>
+                        </div>
+                        <div class="weekdays">
+                            <label>Mon<input type="checkbox" name="weekdays" value="mon"></label>
+                            <label>Tue<input type="checkbox" name="weekdays" value="tue"></label>
+                            <label>Wed<input type="checkbox" name="weekdays" value="wed"></label>
+                            <label>Thu<input type="checkbox" name="weekdays" value="thu"></label>
+                            <label>Fri<input type="checkbox" name="weekdays" value="fri"></label>
+                            <label>Sat<input type="checkbox" name="weekdays" value="sat"></label>
+                            <label>Sun<input type="checkbox" name="weekdays" value="sun"></label>
+                        </div>
                     </div>
                 </fieldset>
                 <button type="submit">Save</button>

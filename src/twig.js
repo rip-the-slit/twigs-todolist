@@ -15,6 +15,9 @@ export class Twig {
     get name() {
         return this.#name
     }
+    set name(newValue) {
+        this.#name = newValue
+    }
     get dueTime() {
         return this.#dueTime
     }
@@ -28,8 +31,14 @@ export class Twig {
     get priority() {
         return this.#priority
     }
+    set priority(newValue) {
+        this.#priority = newValue
+    }
     get topic() {
         return this.#topic
+    }
+    set topic(newValue) {
+        this.#topic = newValue
     }
     get status() {
         return this.#status

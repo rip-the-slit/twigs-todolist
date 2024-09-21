@@ -1,6 +1,8 @@
 export { clear, build}
 import { Branch } from "./branch"
+import { Twig } from "./twig"
 import { branches } from "./branches"
+import { fixedDate, periodicDate } from "./date"
 
 const getNode = (tag) => {
     return document.querySelector(tag)
@@ -217,6 +219,337 @@ const build = (function() {
                 }
             }
         }
+        const twigEditor = (thisBranch, twig) => {
+            const isTwigNew = !twig
+            if (isTwigNew) {twig = new Twig("", {distance: "open-ended"}, "low", "")}
+            const isOpenEnded = twig.dueTime.distance == "open-ended"
+            const isOneTime = twig.dueTime instanceof fixedDate
+            const isPeriodic = twig.dueTime instanceof periodicDate
+            let frequencyOption
+            let daysOption
+            if (isPeriodic) {
+                frequencyOption = twig.dueTime.options.frequency
+                daysOption = twig.dueTime.options.days
+            }
+
+            const duetimeType = () => {
+                const handleEvent = (e) => {
+                    const eventValue = e.target.value
+                    if (eventValue == "open-ended") {
+                        oneTimeDuetimeInstance.hide()
+                        periodicDuetimeFrequencyInstance.hide()
+                        weekdaysInstance.hide()
+                    } else if (eventValue == "one-time") {
+                        periodicDuetimeFrequencyInstance.hide()
+                        weekdaysInstance.hide()
+                        oneTimeDuetimeInstance.show()
+                    } else {
+                        oneTimeDuetimeInstance.hide()
+                        periodicDuetimeFrequencyInstance.show()
+                    }
+                }
+                const getValue = () => {
+                    return duetimeTypeInput.value
+                }
+
+                const duetimeType = createElement("div")
+                const duetimeTypeLabel = createElement("label")
+                const duetimeTypeInput = createElement("select")
+                const openEndedOption = createElement("option")
+                const oneTimeOption = createElement("option")
+                const periodicOption = createElement("option")
+
+                duetimeTypeInput.addEventListener("change", handleEvent)
+                
+                duetimeType.classList.add("duetime-type")
+
+                duetimeTypeInput.id = "duetime-type"
+
+                duetimeTypeLabel.style.display = "none"
+
+                duetimeTypeLabel.setAttribute("for", "duetime-type")
+                duetimeTypeInput.setAttribute("name", "duetime-type")
+                openEndedOption.setAttribute("value", "open-ended")
+                oneTimeOption.setAttribute("value", "one-time")
+                periodicOption.setAttribute("value", "periodic")
+
+                duetimeTypeLabel.textContent = "Duetime type:"
+                openEndedOption.textContent = "Open-ended"
+                oneTimeOption.textContent = "One-time"
+                periodicOption.textContent = "Periodic"
+
+                duetimeType.appendChild(duetimeTypeLabel)
+                duetimeTypeInput.appendChild(openEndedOption)
+                duetimeTypeInput.appendChild(oneTimeOption)
+                duetimeTypeInput.appendChild(periodicOption)
+                duetimeType.appendChild(duetimeTypeInput)
+                duetimeOptionsDiv.appendChild(duetimeType)
+
+                if (isOneTime) {
+                    duetimeTypeInput.value = "one-time"
+                } else if (isPeriodic) {
+                    duetimeTypeInput.value = "periodic"
+                }
+
+                return { getValue }
+            }
+            const oneTimeDuetime = () => {
+                const show = () => {
+                    oneTimeDuetime.style.display = "inherit"
+                }
+                const hide = () => {
+                    oneTimeDuetime.style.display = "none"
+                }
+                const getValue = () => {
+                    return oneTimeDuetimeInput.value
+                }
+                const oneTimeDuetime = createElement("div")
+                const oneTimeDuetimeLabel = createElement("label")
+                const oneTimeDuetimeInput = createElement("input")
+
+                if (isOneTime) {show()}
+                else {hide()}
+
+                oneTimeDuetime.classList.add("onetime-duetime")
+
+                oneTimeDuetimeInput.id = "date"
+
+                oneTimeDuetimeLabel.style.display = "none"
+
+                oneTimeDuetimeLabel.setAttribute("for", "date")
+                oneTimeDuetimeInput.setAttribute("type", "date")
+
+                oneTimeDuetime.appendChild(oneTimeDuetimeLabel)
+                oneTimeDuetime.appendChild(oneTimeDuetimeInput)
+                duetimeOptionsDiv.appendChild(oneTimeDuetime)
+
+                return { show, hide, getValue }
+            }
+            const periodicDuetimeFrequency = () => {
+                const show = () => {
+                    periodicDuetimeFrequency.style.display = "flex"
+                }
+                const hide = () => {
+                    periodicDuetimeFrequency.style.display = "none"
+                }
+                const handleEvent = (e) => {
+                    if (e.target.value == "weekly") {
+                        weekdaysInstance.show()
+                    } else {
+                        weekdaysInstance.hide()
+                    }
+                    for (const label of [dailyOption, weeklyOption]) {
+                        label.classList.remove("checked")
+                    }
+                    e.target.parentNode.classList.add("checked")
+                }
+                const getValue = () => {
+                    return periodicDuetimeFrequency.querySelector(".checked").lastChild.value
+                }
+
+                const periodicDuetimeFrequency = createElement("div")
+                const dailyOption = createElement("label")
+                const dailyOptionInput = createElement("input")
+                const weeklyOption = createElement("label")
+                const weeklyOptionInput= createElement("input")
+
+                periodicDuetimeFrequency.addEventListener("change", handleEvent)
+
+                if (isPeriodic) {show()}
+                else {hide()}
+
+                periodicDuetimeFrequency.classList.add("periodic-duetime-frequency")
+
+                dailyOptionInput.id = "daily"
+                weeklyOptionInput.id = "weekly"
+
+                dailyOption.setAttribute("for", "daily")
+                dailyOptionInput.setAttribute("type", "radio")
+                dailyOptionInput.setAttribute("value", "daily")
+                dailyOptionInput.setAttribute("name", "periodic-duetime-frequency")
+                weeklyOptionInput.setAttribute("type", "radio")
+                weeklyOptionInput.setAttribute("value", "weekly")
+                weeklyOptionInput.setAttribute("name", "periodic-duetime-frequency")
+
+                dailyOption.textContent = "Daily"
+                weeklyOption.textContent = "Weekly"
+
+                dailyOption.appendChild(dailyOptionInput)
+                periodicDuetimeFrequency.appendChild(dailyOption)
+                weeklyOption.appendChild(weeklyOptionInput)
+                periodicDuetimeFrequency.appendChild(weeklyOption)
+                duetimeOptionsDiv.appendChild(periodicDuetimeFrequency)
+
+                if (frequencyOption == "weekly") {
+                    weeklyOptionInput.checked = true
+                    weeklyOption.classList.add("checked")
+                } else {
+                    dailyOptionInput.checked = true
+                    dailyOption.classList.add("checked")
+                }
+
+                return { show, hide, getValue }
+            }
+            const weekdays = () => {
+                const show = () => {
+                    weekdays.style.display = "flex"
+                }
+                const hide = () => {
+                    weekdays.style.display = "none"
+                }
+                const handleEvent = (e) => {
+                    if (e.target.checked) {
+                        e.target.parentNode.classList.add("checked")
+                    } else {
+                        e.target.parentNode.classList.remove("checked")
+                    }
+                }
+                const match = (daysOption) => {
+                    const day = weekdays.querySelector(`input[value=${daysOption}]`)
+                    day.checked = true
+                    day.parentNode.classList.add("checked")
+                }
+                const getValue = () => {
+                    return Array.from(weekdays.querySelectorAll("label.checked"))
+                                .map((day) => {return day.lastChild.value})
+                }
+
+                const weekdays = createElement("div")
+                const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+                for (const day of days) {
+                    const dayLowerCased = day.toLowerCase()
+                    const label = createElement("label")
+                    const input = createElement("input")
+
+                    input.id = `${dayLowerCased}`
+
+                    label.setAttribute("for", `${dayLowerCased}`)
+                    input.setAttribute("value", `${dayLowerCased}`)
+                    input.setAttribute("type", "checkbox")
+                    input.setAttribute("name", "weekdays")
+
+                    label.textContent = day
+
+                    label.appendChild(input)
+                    weekdays.appendChild(label)
+                }
+
+                weekdays.addEventListener("change", handleEvent)
+
+                if (frequencyOption == "weekly") {show()}
+                else {hide()}
+
+                weekdays.classList.add("weekdays")
+                duetimeOptionsDiv.appendChild(weekdays)
+
+                if (daysOption) {daysOption.forEach(match)}
+
+                return { show, hide, getValue }
+            }
+            const handleSubmit = (e) => {
+                e.preventDefault()
+                twig.name = twigNameInput.value
+                twig.topic = twigTopicInput.value
+                twig.priority = prioritySelect.value
+
+                const selectedDuetimeType = duetimeTypeInstance.getValue()
+
+                if (selectedDuetimeType == "open-ended") {
+                    twig.dueTime = {distance: "open-ended"}
+                } else if (selectedDuetimeType == "one-time") {
+                    const selectedDate = oneTimeDuetimeInstance.getValue().split("-")
+                    twig.dueTime = new fixedDate(+selectedDate[2], +selectedDate[1], +selectedDate[0])
+                } else {
+                    debugger
+                    const selectedFrequency = periodicDuetimeFrequencyInstance.getValue()
+
+                    if (selectedFrequency == "daily") {
+                        twig.dueTime = new periodicDate({frequency: "daily"})
+                    } else {
+                        const selectedDays = weekdaysInstance.getValue()
+                        twig.dueTime = new periodicDate({frequency: "weekly", days: selectedDays})
+                    }
+                }
+
+                if (isTwigNew) {thisBranch.addTwig(twig)}
+                clear.content()
+                updateBranchList(branch(thisBranch))
+            }
+
+            const twigEditor = createElement("div")
+            const form = createElement("form")
+            const twigName = createElement("label")
+            const twigNameInput = createElement("input")
+            const topicAndPriorityDiv = createElement("div")
+            const twigTopic = createElement("label")
+            const twigTopicInput = createElement("input")
+            const twigPriority = createElement("label")
+            const prioritySelect = createElement("select")
+            const lowOption = createElement("option")
+            const mediumOption = createElement("option")
+            const highOption = createElement("option")
+            const fieldset = createElement("fieldset")
+            const legend = createElement("legend")
+            const duetimeOptionsDiv = createElement("div")
+            const submitButton = createElement("button")
+
+            form.addEventListener("submit", handleSubmit)
+
+            twigEditor.classList.add("twig-editor")
+
+            twigNameInput.id = "twig-name"
+            twigTopicInput.id = "twig-topic"
+            prioritySelect.id = "twig-priority"
+
+            twigName.setAttribute("for", "twig-name")
+            twigNameInput.setAttribute("placeholder", "The name of your twig")
+            twigNameInput.setAttribute("type", "text")
+            twigTopic.setAttribute("for", "twig-topic")
+            twigTopicInput.setAttribute("placeholder", "E.g. work")
+            twigTopicInput.setAttribute("type", "text")
+            twigPriority.setAttribute("for", "twig-priority")
+            prioritySelect.setAttribute("name", "twig-priority")
+            lowOption.setAttribute("value", "low")
+            mediumOption.setAttribute("value", "medium")
+            highOption.setAttribute("value", "high")
+            submitButton.setAttribute("type", "submit")
+
+            twigName.textContent = "Name:"
+            twigTopic.textContent = "Topic:"
+            twigPriority.textContent = "Priority"
+            lowOption.textContent = "Low"
+            mediumOption.textContent = "Medium"
+            highOption.textContent = "High"
+            legend.textContent = "Select duetime:"
+            submitButton.textContent = "Save"
+
+            twigNameInput.value = twig.name
+            twigTopicInput.value = twig.topic
+
+            const duetimeTypeInstance = duetimeType()
+            const oneTimeDuetimeInstance = oneTimeDuetime()
+            const periodicDuetimeFrequencyInstance = periodicDuetimeFrequency()
+            const weekdaysInstance = weekdays()
+
+            twigName.appendChild(twigNameInput)
+            form.appendChild(twigName)
+            twigTopic.appendChild(twigTopicInput)
+            topicAndPriorityDiv.appendChild(twigTopic)
+            prioritySelect.appendChild(lowOption)
+            prioritySelect.appendChild(mediumOption)
+            prioritySelect.appendChild(highOption)
+            twigPriority.appendChild(prioritySelect)
+            topicAndPriorityDiv.appendChild(twigPriority)
+            form.appendChild(topicAndPriorityDiv)
+            fieldset.appendChild(legend)
+            fieldset.appendChild(duetimeOptionsDiv)
+            form.appendChild(fieldset)
+            form.appendChild(submitButton)
+            twigEditor.appendChild(form)
+            contentNode.appendChild(twigEditor)
+
+            prioritySelect.value = twig.priority
+        }
         const branch = (obj) => {
             const branchName = obj.name
             const branchDescription = obj.description
@@ -237,6 +570,11 @@ const build = (function() {
                 const twigPriority = "Priority: " + twig.priority
                 const twigTopic = "Topic: " + twig.topic
 
+                const handleEditButton = (e) => {
+                    clear.content()
+                    twigEditor(obj, twig)
+                }
+
                 const twigDiv = createElement("div")
                 const checkboxContainer = createElement("div")
                 const checkbox = createElement("div")
@@ -246,6 +584,8 @@ const build = (function() {
                 const priorityTag = createElement("span")
                 const topicTag = createElement("span")
                 const editButton = createElement("button")
+
+                editButton.addEventListener("click", handleEditButton)
 
                 if (twigStatus == "burnt") {checkbox.classList.toggle("checked")}
                 checkbox.addEventListener("click", (e) => {
@@ -378,6 +718,10 @@ const build = (function() {
 
                 return { updateCounters }
             }
+            const handleCreateButton = (e) => {
+                clear.content()
+                twigEditor(obj)
+            }
 
             const branchContent = createElement("div")
             const branchHeading = createElement("div")
@@ -387,6 +731,8 @@ const build = (function() {
             const createTwigButton = createElement("button")
             const branchFilter = createElement("div")
             const twigsContainer = createElement("div")
+
+            createTwigButton.addEventListener("click", handleCreateButton)
 
             branchContent.classList.add("branch-content")
             branchHeading.classList.add("branch-heading")
@@ -415,7 +761,7 @@ const build = (function() {
 
             return { update, obj }
         }   
-        return { branch, branchEditor }
+        return { branch, branchEditor, twigEditor }
     })()
     return { branchListItem, content }
 })()

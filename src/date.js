@@ -88,4 +88,5 @@ class periodicDate {
         if (isPast(nearestDate)) {this.#shiftDate()}
         return !(isSameDay(new Date(), nearestDate))
     }
+    get options() {return this.#options}
 }

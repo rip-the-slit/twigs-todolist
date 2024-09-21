@@ -7,12 +7,13 @@ import "./base-style.css"
 import "./sidebar-style.css"
 import "./content-style.css"
 import "./branch-editor.css"
+import "./twig-editor.css"
 
 const defaultBranch = new Branch("Welcome", 
                                 "Things you should do to get started",
                                 "rose",
                                 new Twig("Create a twig",
-                                        "every day",
+                                        new periodicDate({frequency: "weekly", days: ["mon"]}),
                                         "high",
                                         "start"
                                 ),
@@ -41,4 +42,4 @@ branches.add(otherBranch)
 clear.branchList()
 branches.iterate(build.branchListItem)
 clear.content()
-build.content.branchEditor()
+build.content.twigEditor()

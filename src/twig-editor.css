@@ -1,0 +1,65 @@
+.twig-editor > form > label,
+.twig-editor > form > div > label {
+    display: grid;
+    grid-template-rows: max-content 1fr;
+}
+
+.twig-editor > form > div {
+    display: grid;
+    grid-template-columns: 1fr .5fr;
+    gap: 10px;
+}
+
+.twig-editor > form > div > label > input {
+    width: 100%;
+}
+
+.twig-editor select {
+    color: #71717a;
+    font-size: 1.1rem;
+    margin-top: 5px;
+    border: 1px solid #d4d4d8;
+    font-weight: initial;
+    padding: 10px;
+    background: #d4d4d865;
+}
+
+.twig-editor select,
+.onetime-duetime input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.periodic-duetime-frequency {
+    margin-top: 5px;
+}
+
+.periodic-duetime-frequency,
+.weekdays {
+    display: flex;
+    gap: 5px;
+    justify-content: space-between;
+}
+
+.periodic-duetime-frequency > label{
+    width: 100%;
+}
+
+.periodic-duetime-frequency input,
+.weekdays input {
+    display: none;
+    border: 0;
+}
+
+.weekdays {
+    font-size: .8rem;
+}
+
+.twig-editor label.checked {
+    background: #d4d4d865;
+}
+
+.twig-editor fieldset {
+    margin-bottom: 30px;
+}
