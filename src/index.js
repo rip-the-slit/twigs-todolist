@@ -1,8 +1,7 @@
 import { Twig } from "./twig"
 import { Branch } from "./branch"
 import { branches } from "./branches"
-import { fixedDate, periodicDate } from "./date"
-import { clear, build } from "./dom-manipulation"
+import { build } from "./dom-manipulation"
 import "./base-style.css"
 import "./sidebar-style.css"
 import "./content-style.css"
@@ -49,5 +48,3 @@ if (storageHandler.storageAvailable()) {
                   }
         });
 } else {defaultBehavior()}
-
-console.log(JSON.stringify(branches, null, "\t"))
