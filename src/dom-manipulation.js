@@ -3,6 +3,7 @@ import { Branch } from "./branch"
 import { Twig } from "./twig"
 import { branches } from "./branches"
 import { fixedDate, periodicDate } from "./date"
+import tree from "./assets/tree-in-winter-tree-branch-winter-svgrepo-com.svg"
 
 const getNode = (tag) => {
     return document.querySelector(tag)
@@ -731,6 +732,7 @@ const build = (function() {
             const createTwigButton = createElement("button")
             const branchFilter = createElement("div")
             const twigsContainer = createElement("div")
+            const backgroundTree = createElement("div")
 
             createTwigButton.addEventListener("click", handleCreateButton)
 
@@ -738,6 +740,7 @@ const build = (function() {
             branchHeading.classList.add("branch-heading")
             branchFilter.classList.add("branch-filters")
             twigsContainer.classList.add("twigs-container")
+            backgroundTree.classList.add("background-illustration")
             
             createTwigButton.id = "create-twig-button"
 
@@ -746,6 +749,8 @@ const build = (function() {
             h2.textContent = branchName
             p.textContent = branchDescription
             createTwigButton.textContent = "Create Twig"
+
+            backgroundTree.innerHTML = tree
 
             const filtersInstance = filters()
             iterateTwigs(allTwigs)
@@ -757,6 +762,7 @@ const build = (function() {
             branchContent.appendChild(branchHeading)
             branchContent.appendChild(branchFilter)
             branchContent.appendChild(twigsContainer)
+            branchContent.appendChild(backgroundTree)
             contentNode.appendChild(branchContent)
 
             return { update, obj }

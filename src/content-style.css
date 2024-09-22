@@ -177,6 +177,7 @@
   display: grid;
   grid-template-rows: 100px;
   gap: 15px;
+  margin-bottom: 70px;
 }
 
 .twig {
