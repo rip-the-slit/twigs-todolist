@@ -1,3 +1,5 @@
+import { storageHandler } from "./storage-handler"
+
 export const branches = (function() {
     const storage = []
     const iterate = (callback, displayedBranch) => {
@@ -11,12 +13,14 @@ export const branches = (function() {
     }
     const add = (item) => {
         storage.push(item)
+        storageHandler.store()
     }
     const remove = (item) => {
         const index = storage.indexOf(item)
         if (index > -1) {
             storage.splice(index, 1)
         }
+        storageHandler.store()
         return index
     }
     const select = (index) => {

@@ -8,40 +8,46 @@ import "./sidebar-style.css"
 import "./content-style.css"
 import "./branch-editor.css"
 import "./twig-editor.css"
+import { storageHandler } from "./storage-handler"
 
-const defaultBranch = new Branch("Welcome", 
-                                "Things you should do to get started",
-                                "rose",
-                                new Twig("Create a twig",
-                                        new periodicDate({frequency: "weekly", days: ["mon"]}),
-                                        "high",
-                                        "start"
-                                ),
-                                new Twig("Burn a twig",
-                                        "ee",
-                                        "high",
-                                        "start"
-                                ),
-                                new Twig("Create a branch",
-                                        "every morning",
-                                        "high",
-                                        "start"
-                                ))
-const otherBranch = new Branch("Other branch",
-                                "It's for testing",
-                                "emerald",
-                                new Twig("something",
-                                        "any",
-                                        "any",
-                                        "any"
-                                )
-)
-branches.add(defaultBranch)
-branches.add(otherBranch)
+function defaultBehavior() {
+        const defaultBranch = new Branch("Welcome", 
+                        "Things you should do to get started",
+                        "purple",
+                        new Twig("Create a twig",
+                                {distance: "open-ended"},
+                                "high",
+                                "start"
+                        ),
+                        new Twig("Burn a twig",
+                                {distance: "open-ended"},
+                                "high",
+                                "start"
+                        ),
+                        new Twig("Create a branch",
+                                {distance: "open-ended"},
+                                "high",
+                                "start"
+                        ))
+        branches.add(defaultBranch)
+        build.branchListItem(defaultBranch, build.content.branch(defaultBranch))
+}
 
-clear.branchList()
-branches.iterate(build.branchListItem)
-clear.content()
-build.content.twigEditor()
+if (storageHandler.storageAvailable()) {
+        if (!storageHandler.retrieve()) {
+                defaultBehavior()
+        } else {
+                storageHandler.restore()
+                const firstBranch = branches.select(0)
+                if (firstBranch) {
+                        branches.iterate(build.branchListItem, build.content.branch(firstBranch))
+                }
+        }
+        document.addEventListener('visibilitychange', function() {
+                  if (document.visibilityState == 'hidden') {
+                        storageHandler.store()
+                  }
+        });
+} else {defaultBehavior()}
 
 console.log(JSON.stringify(branches, null, "\t"))

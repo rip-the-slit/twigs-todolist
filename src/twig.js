@@ -27,9 +27,9 @@ export class Twig {
     set dueTime(newValue) {
         this.#dueTime = newValue
 
-        if (!(this.isOverdue)) {
-            this.#status = "due"
-        } else {this.#status = "burnt"}
+        if (this.isOverdue) {
+            this.#status = "burnt"
+        }
     }
     get priority() {
         return this.#priority

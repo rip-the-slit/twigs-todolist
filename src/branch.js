@@ -1,3 +1,5 @@
+import { storageHandler } from "./storage-handler";
+
 export class Branch {
     #storage = (function() {
         const storage = [];
@@ -45,9 +47,11 @@ export class Branch {
     }
     addTwig(item) {
         this.#storage.store(item)
+        storageHandler.store()
     }
     removeTwig(item) {
         this.#storage.deleteItem(item)
+        storageHandler.store()
     }
     toJSON() {
         const storedStuff = this.allTwigs()
