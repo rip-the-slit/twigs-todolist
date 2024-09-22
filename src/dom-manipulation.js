@@ -4,6 +4,7 @@ import { Twig } from "./twig"
 import { branches } from "./branches"
 import { fixedDate, periodicDate } from "./date"
 import tree from "./assets/tree-in-winter-tree-branch-winter-svgrepo-com.svg"
+import minus from "./assets/remove-minus-svgrepo-com.svg"
 
 const getNode = (tag) => {
     return document.querySelector(tag)
@@ -576,6 +577,12 @@ const build = (function() {
                     twigEditor(obj, twig)
                 }
 
+                const handleDeleteButton = (e) => {
+                    obj.removeTwig(twig)
+                    update()
+                    updateBranchList()
+                }
+
                 const twigDiv = createElement("div")
                 const checkboxContainer = createElement("div")
                 const checkbox = createElement("div")
@@ -585,8 +592,10 @@ const build = (function() {
                 const priorityTag = createElement("span")
                 const topicTag = createElement("span")
                 const editButton = createElement("button")
+                const deleteButton = createElement("button")
 
                 editButton.addEventListener("click", handleEditButton)
+                deleteButton.addEventListener("click", handleDeleteButton)
 
                 if (twigStatus == "burnt") {checkbox.classList.toggle("checked")}
                 checkbox.addEventListener("click", (e) => {
@@ -604,12 +613,15 @@ const build = (function() {
                 priorityTag.classList.add("priority")
                 topicTag.classList.add("topic")
                 editButton.classList.add("edit-twig-button")
+                deleteButton.classList.add("delete-button")
 
                 h3.textContent = twigName
                 duetimeTag.textContent = twigDuetime
                 priorityTag.textContent = twigPriority
                 topicTag.textContent = twigTopic
                 editButton.textContent = "Edit"
+
+                deleteButton.innerHTML = minus
 
                 checkboxContainer.appendChild(checkbox)
                 twigDiv.appendChild(checkboxContainer)
@@ -619,6 +631,7 @@ const build = (function() {
                 twigTags.appendChild(topicTag)
                 twigTags.appendChild(editButton)
                 twigDiv.appendChild(twigTags)
+                twigDiv.appendChild(deleteButton)
                 twigsContainer.appendChild(twigDiv)
             }
             const iterateTwigs = (getArray) => {
