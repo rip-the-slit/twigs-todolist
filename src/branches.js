@@ -22,5 +22,8 @@ export const branches = (function() {
     const select = (index) => {
         return storage[index]
     }
-    return{ iterate, add, remove, select }
+    const toJSON = () => {
+        return storage
+    }
+    return{ iterate, add, remove, select, toJSON }
 })()

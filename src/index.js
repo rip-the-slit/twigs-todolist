@@ -43,3 +43,5 @@ clear.branchList()
 branches.iterate(build.branchListItem)
 clear.content()
 build.content.twigEditor()
+
+console.log(JSON.stringify(branches, null, "\t"))

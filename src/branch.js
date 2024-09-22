@@ -49,4 +49,13 @@ export class Branch {
     removeTwig(item) {
         this.#storage.deleteItem(item)
     }
+    toJSON() {
+        const storedStuff = this.allTwigs()
+        return {
+            branchName: this.#name,
+            description: this.#description,
+            colorTheme: this.#colorTheme,
+            storage: storedStuff
+        }
+    }
 }

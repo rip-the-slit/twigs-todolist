@@ -4,11 +4,14 @@ export class Twig {
     #priority;
     #topic;
     #status = "due"
-    constructor(name, dueTime, priority, topic) {
+    constructor(name, dueTime, priority, topic, forceStatus) {
         this.#name = name
         this.#dueTime = dueTime
         this.#priority = priority
         this.#topic = topic
+        if (forceStatus) {
+            this.#status = forceStatus
+        }
 
         if (this.isOverdue) {this.#status = "burnt"}
     }
@@ -48,5 +51,14 @@ export class Twig {
     }
     toggleStatus() {
         this.#status = (this.#status == "due") ? "burnt": "due"
+    }
+    toJSON() {
+        return {
+            twigName: this.#name,
+            dueTime: this.#dueTime,
+            priority: this.#priority,
+            topic: this.#topic,
+            status: this.#status 
+        }
     }
 }

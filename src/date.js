@@ -17,6 +17,19 @@ class fixedDate {
     get hasPassed() {
         return isPast(this.#date)
     }
+    toJSON() {
+        const day = this.#date.getDate()
+        const month = this.#date.getMonth() +1
+        const year = this.#date.getFullYear()
+        return {
+            type: "fixed",
+            arguments: {
+                day: day,
+                month: month,
+                year: year
+            }
+        }
+    }
 }
 
 class periodicDate {
@@ -89,4 +102,10 @@ class periodicDate {
         return !(isSameDay(new Date(), nearestDate))
     }
     get options() {return this.#options}
+    toJSON() {
+        return {
+            type: "periodic",
+            arguments: this.#options
+        }
+    }
 }
