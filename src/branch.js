@@ -6,8 +6,12 @@ export class Branch {
             return storage[itemNumber -1]
         }
         const getAmountStored = () => {return storage.length}
-        const deleteItem = (itemNumber) => {
-            storage.splice(itemNumber -1, 1)
+        const deleteItem = (item) => {
+            const index = storage.indexOf(item)
+            if (index > -1) {
+                storage.splice(index, 1)
+            }
+            return index
         }
         const filterItems = (prop, value) => {
             return storage.filter((item) => {
@@ -42,7 +46,7 @@ export class Branch {
     addTwig(item) {
         this.#storage.store(item)
     }
-    removeTwig(itemNumber) {
-        this.#storage.deleteItem(itemNumber)
+    removeTwig(item) {
+        this.#storage.deleteItem(item)
     }
 }
